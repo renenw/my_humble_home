@@ -1,8 +1,8 @@
-Notes to my future self.
+Notes to my future self. And to anyone following my tracks.
 
 # Why?
 
-Years back I rolled out some 1Wire devices to meter our electrical consumption. This guided changes to our lighting that drastically reduced our electiricity bill. It also lead to various other home automation projects: a pool topper upper, a gate pin pad, notifications when sumps flooded etc. 
+Years back I rolled out some 1Wire devices to meter our electrical consumption. This guided changes to our lighting that drastically reduced our electiricity bill. It also lead to various other home automation projects: a pool topper-upper, a gate pin pad, notifications when sumps flooded, weather based garden irrigation etc. 
 
 But, over time, power supplies failed, wires corroded, and technology moved forward. Its time to add a few cameras, and, it seems we should embrace Home Assistant.
 
