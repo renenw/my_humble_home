@@ -28,5 +28,18 @@ CollectD versus Telegraf versus [home grown](https://github.com/renenw/ping): Bo
 
 ## Installation
 
+Installed InfluxDB using their documentation. Did not install the CLI, instead using their local web interface.
+
+Used this to install the Telegraf Ping plugin.
+
+Configured Ping to hit:
+```
+  ## Gateway, Google (probably JHB), "us-east-1", "eu-west-1", "af-south-1"
+  urls = ["105.233.1.138", "8.8.8.8", "3.80.0.0", "3.248.0.0", "13.245.0.253"]
+```
+
+Note that the AWS IPs were obtained from the [AWS Reachability Page](http://ec2-reachability.amazonaws.com/)
+
+
 
 
