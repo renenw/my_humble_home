@@ -18,6 +18,10 @@ But, over time, power supplies failed, wires corroded, and technology moved forw
 
 I bought a little Beelink computer with 2.5GB os SSD, and 16GB of RAM. I installed Ubuntu 22.10 onto it.
 
+# Home Assistant
+
+After watching loads of videos, I evenutally settled on installing "Home Assistant Core": Python based, and foregoing add ons. Which I suspect I want to manage manually anyway.
+
 # Internet Monitoring: Latency
 
 As a place to start, I want to track the performance of my network. Initially, this means pinging a rande of servers and gateways to guage reachability and latency. Speed will come later.
