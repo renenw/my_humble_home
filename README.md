@@ -93,6 +93,8 @@ This time: `mosquitto_sub -v -t '#' -h 192.168.0.245`
 
 And then: `mosquitto_pub -t 'test/topic' -m 'hello' -h 192.168.0.245`
 
+# Zigb
+
 # Internet Monitoring: Latency
 
 As a place to start, I want to track the performance of my network. Initially, this means pinging a rande of servers and gateways to guage reachability and latency. Speed will come later.
