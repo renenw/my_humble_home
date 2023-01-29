@@ -22,6 +22,38 @@ I bought a little Beelink computer with 2.5GB os SSD, and 16GB of RAM. I install
 
 After watching loads of videos, I evenutally settled on installing "Home Assistant Core": Python based, and foregoing add ons. Which I suspect I want to manage manually anyway.
 
+# MQTT
+
+Installed mosquitto. I also needed to open the firewall to allow outside traffic to reach our new broker:
+```
+sudo ufw enable
+sudo ufw allow 1883
+```
+
+I also had to tell MQTT to listen to remote connections, and to allow anonymous connections:
+
+`sudo nano /etc/mosquitto/conf.d/mosquitto.conf`
+
+Then, add the following two lines:
+```
+allow_anonymous true
+listener 1883 0.0.0.0
+```
+
+(That was the only two lines in this file.)
+
+## Testing
+
+In one console window, run: `mosquitto_sub -v -t '#'` which echos all messages received by the broker to the console.
+
+In another, run: `mosquitto_pub -t 'test/topic' -m 'hello'`
+
+Even better, test from a remote machine:
+
+This time: `mosquitto_sub -v -t '#' -h 192.168.0.245`
+
+And then: `mosquitto_pub -t 'test/topic' -m 'hello' -h 192.168.0.245`
+
 # Internet Monitoring: Latency
 
 As a place to start, I want to track the performance of my network. Initially, this means pinging a rande of servers and gateways to guage reachability and latency. Speed will come later.
