@@ -24,7 +24,44 @@ After watching loads of videos, I evenutally settled on installing "Home Assista
 
 I followed the instructions on the Home Assistant web site.
 
+But, its never quite that simple. You also need to setup HA as a service. I followed [these](https://community.home-assistant.io/t/autostart-using-systemd/199497) instructions:
+
+First: `sudo nano /etc/systemd/system/home-assistant@homeassistant.service`
+
+Paste the following into that file:
+```
+[Unit]
+Description=Home Assistant
+After=network-online.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/home/%i/.homeassistant
+ExecStart=/srv/homeassistant/bin/hass -c "/home/%i/.homeassistant"
+RestartForceExitStatus=100
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then:
+```
+sudo systemctl --system daemon-reload
+sudo systemctl start home-assistant@homeassistant.service
+sudo systemctl status home-assistant@homeassistant.service
+```
+
+Make sure that things still work by restarting.
+
+
 # MQTT
+
+## Why?
+
+As I understand things, MQTT is a pub-sub messaging mechanism that allows Home Assistant to communicate with a range of devices. For example, Zigbee2MQTT translates between Zigbeen devices and Home Assistant using MQTT.
+
+## Installation
 
 Installed mosquitto. I also needed to open the firewall to allow outside traffic to reach our new broker:
 ```
