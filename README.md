@@ -59,7 +59,7 @@ Make sure that things still work by restarting.
 
 ## Why?
 
-As I understand things, MQTT is a pub-sub messaging mechanism that allows Home Assistant to communicate with a range of devices. For example, Zigbee2MQTT translates between Zigbeen devices and Home Assistant using MQTT.
+As I understand things, MQTT is a pub-sub messaging mechanism that allows Home Assistant to communicate with a range of devices. For example, [Zigbee2MQTT](https://www.zigbee2mqtt.io/) translates between Zigbeen devices and Home Assistant using MQTT.
 
 ## Installation
 
