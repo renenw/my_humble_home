@@ -131,7 +131,16 @@ Startup seemed to happen without incident.
 
 Curiously, it comprehensively rewrote the yaml confi file.
 
-Finally, I daemonised the system. And restarted to make sure things worked.
+Finally, I daemonised the system (using their instructions; I set `StandardOutput` to `null`):
+
+```
+sudo nano /etc/systemd/system/zigbee2mqtt.service
+sudo systemctl start zigbee2mqtt
+sudo systemctl status zigbee2mqtt
+sudo systemctl enable zigbee2mqtt.service
+```
+
+And, restarted to make sure things worked.
 
 
 # Internet Monitoring: Latency
