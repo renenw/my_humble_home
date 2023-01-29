@@ -22,6 +22,8 @@ I bought a little Beelink computer with 2.5GB os SSD, and 16GB of RAM. I install
 
 After watching loads of videos, I evenutally settled on installing "Home Assistant Core": Python based, and foregoing add ons. Which I suspect I want to manage manually anyway.
 
+I followed the instructions on the Home Assistant web site.
+
 # MQTT
 
 Installed mosquitto. I also needed to open the firewall to allow outside traffic to reach our new broker:
