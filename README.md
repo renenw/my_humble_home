@@ -93,7 +93,46 @@ This time: `mosquitto_sub -v -t '#' -h 192.168.0.245`
 
 And then: `mosquitto_pub -t 'test/topic' -m 'hello' -h 192.168.0.245`
 
-# Zigb
+# Zigbee2MQTT
+
+In our previous setup, we used 1Wire sensors and float switches to monitor sumps and the pool depth, as well as a a few thermometers around and about.
+
+I want to migrate these to "manufactured" Zigbee devices.
+
+It seems the standard approach to linking a Zigbee network to Home Assistant is to use [Zigbee2MQTT](https://www.zigbee2mqtt.io/). However, my Home Assistant server is in my office, miles from the "centre" of the house. As such, I'm going to plug my Zigbee [controller](https://www.se.com/eg/en/faqs/FA376743/) into a Raspberry Pi runing in the thick of things.
+
+For a controller, I bought a Sonoff Zigbee 3.0 USB Dongle. Which seems pretty popular.
+
+## Installation
+
+I plugged the USB device into the Raspberry Pi, and then followed the Zigbee2MQTT default Linux instructions, [here](https://www.zigbee2mqtt.io/guide/installation/01_linux.html).
+
+I had to use their (recommended) `by-id` mapping approach:
+
+```
+pi@relay:~ $ ls -l /dev/serial/by-id
+total 0
+lrwxrwxrwx 1 root root 13 Jan 29 14:24 usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_ce715a9d239dec11975d614d73138bba-if00-port0 -> ../../ttyUSB0
+```
+
+I ran through the balance of the instructions. In the YAML file, I set the MQTT broker to the broker installed on my server, and set the:
+```
+server: mqtt://192.168.0.245
+port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_ce715a9d239dec11975d614d73138bba-if00-port0
+```
+And, I added the recommended lines to the end of the file:
+```
+advanced:
+    network_key: GENERATE
+frontend: true
+```
+
+Startup seemed to happen without incident.
+
+Curiously, it comprehensively rewrote the yaml confi file.
+
+Finally, I daemonised the system. And restarted to make sure things worked.
+
 
 # Internet Monitoring: Latency
 
