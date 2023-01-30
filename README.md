@@ -140,7 +140,17 @@ sudo systemctl status zigbee2mqtt
 sudo systemctl enable zigbee2mqtt.service
 ```
 
-And, restarted to make sure things worked.
+And, restarted to make sure things worked. Of course, it didn't....
+
+## Gotcha
+
+Line one of the Zigbee2MQTT config file had defaulted to: `homeassistant: false`. I needed to change it to `homeassistant: true` (and restart).
+
+## Post Installation
+
+I was able to connect to the Zigbee2MQTT management console: http://192.168.0.252:8080/#/ (obviously, your IP address will change).
+
+
 
 
 # Internet Monitoring: Latency
