@@ -165,7 +165,7 @@ CollectD versus Telegraf versus [home grown](https://github.com/renenw/ping): Bo
 
 Installed InfluxDB using their documentation. Did not install the CLI, instead using their local web interface.
 
-Used this to install the Telegraf Ping plugin.
+Used the local web interface to install and configure the Telegraf Ping plugin.
 
 Configured Ping to hit:
 ```
