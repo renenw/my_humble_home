@@ -201,5 +201,8 @@ Your `.bashrc` should have something along these lines at the end:
 export INFLUX_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxx==
 ```
 
+## Bucket Permissions
+
+I want to push ping data to a ping specific bucket: `ping` (duh). Getting these permissions to work was tricky.
 
 
