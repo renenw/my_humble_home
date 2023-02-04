@@ -167,7 +167,7 @@ Installed InfluxDB using their documentation. Did not install the CLI, instead u
 
 Used the local web interface to install and configure the Telegraf Ping plugin.
 
-Configured Ping to hit:
+Within the Ping plugin confguration, set:
 ```
   ## Gateway, Google (probably JHB), "us-east-1", "eu-west-1", "af-south-1"
   urls = ["105.233.1.138", "8.8.8.8", "3.80.0.0", "3.248.0.0", "13.245.0.253"]
@@ -175,6 +175,31 @@ Configured Ping to hit:
 
 Note that the AWS IPs were obtained from the [AWS Reachability Page](http://ec2-reachability.amazonaws.com/)
 
+## Telegraf
+
+There are few things that I didn't find obvious about Telegraf.
+
+First, configured using the InfluxDb UI, Influx wants Telegraf to pull its config from Influx:
+
+These feels reasonable.
+
+However, there are few other parts to the puzzle.
+
+First, you need to configure an Influx API token environment variable.
+
+
+To do this, edit `.bashrc` and add the token at the end, then run `source`:
+
+```
+nano ~/.bashrc 
+source ~/.bashrc
+```
+
+Your `.bashrc` should have something along these lines at the end:
+
+```
+export INFLUX_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxx==
+```
 
 
 
