@@ -20,6 +20,8 @@ I bought a little Beelink computer with 2.5GB os SSD, and 16GB of RAM. I install
 
 # Home Assistant
 
+## Installation
+
 After watching loads of videos, I evenutally settled on installing "Home Assistant Core": Python based, and foregoing add ons. Which I suspect I want to manage manually anyway.
 
 I followed the instructions on the Home Assistant web site.
@@ -53,6 +55,37 @@ sudo systemctl status home-assistant@homeassistant.service
 ```
 
 Make sure that things still work by restarting.
+
+## Configuration.yaml
+
+Is located at `/home/homeassistant/.homeassistant/configuration.yaml`
+
+## Database
+
+I'm going to be leveraging MySQL for a bunch of other work, so I think we should migrate Home Assistant to MySQL.
+
+```
+sudo apt install mysql-server
+sudo systemctl start mysql.service
+sudo apt-get install libmysqlclient-dev
+```
+
+We also need to install the Python mysql client for HA:
+```
+sudo su homeassistant
+pip install mysqlclient
+```
+
+Didn't even seem to need to be enabled.
+
+Then we need to a database and user for home assistant to use:
+```
+sudo mysql
+create database homeassistant;
+use homeassistant;
+CREATE USER 'homeassistant'@'%' IDENTIFIED BY 'xxxxxxx';
+GRANT ALL PRIVILEGES ON homeassistant.* TO 'homeassistant'@'%';
+```
 
 
 # MQTT
