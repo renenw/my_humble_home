@@ -60,6 +60,16 @@ Make sure that things still work by restarting.
 
 Is located at `/home/homeassistant/.homeassistant/configuration.yaml`
 
+## App
+
+You'll need to enable port 8123 to be forwarded to your server.
+
+Once this is done, you'll need to configure your firewall to all traffic onto the server itself:
+```
+sudo ufw enable
+sudo ufw allow 8123
+```
+
 # Databases
 
 I'm going to be leveraging MySQL for a bunch of other work, so I think we should migrate Home Assistant to MySQL. This step, it seems, needs to be done _after_ HA is up and running. I did this after I'd added a few devices and they didn't vapourise. So, I conclude that SQLite is still being used.
