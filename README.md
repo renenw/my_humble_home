@@ -304,7 +304,7 @@ I want to push ping data to a ping specific bucket: `ping` (duh). Getting these 
 
 ## Home Assistant Sensor
 
-Now, to get a sensor into Home Assistant, we will need to add variants of the following to our config file:
+Now, to create a HomeAssistenat sensor to model these values. We will need to add variants of the following to our config file:
 
 ```
 sudo /home/homeassistant/.homeassistant/configuration.yaml
