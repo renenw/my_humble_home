@@ -248,6 +248,10 @@ These feels reasonable.
 
 However, there are few other parts to the puzzle.
 
+renen@server:~$ sudo nano /etc/systemd/system/telegraf.service.d/override.conf 
+renen@server:~$ sudo nano ~/.bashrc 
+renen@server:~$ sudo nano /lib/systemd/system/telegraf.service 
+
 First, you need to configure an Influx API token environment variable.
 
 
