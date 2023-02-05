@@ -67,13 +67,16 @@ I'm going to be leveraging MySQL for a bunch of other work, so I think we should
 ```
 sudo apt install mysql-server
 sudo systemctl start mysql.service
-sudo apt-get install libmysqlclient-dev
+sudo apt-get install default-libmysqlclient-dev libssl-dev
 ```
+That was the easy part. Getting HA to actually use the database was a little harder.
+
+This document was instrumental to getting things up and running: https://www.home-assistant.io/integrations/recorder/
 
 We also need to install the Python mysql client for HA:
 ```
-sudo su homeassistant
-pip install mysqlclient
+sudo -u homeassistant -H -s
+pip3 install mysqlclient
 ```
 
 Didn't even seem to need to be enabled.
@@ -81,7 +84,8 @@ Didn't even seem to need to be enabled.
 Then we need to a database and user for home assistant to use:
 ```
 sudo mysql
-create database homeassistant;
+SET GLOBAL default_storage_engine = 'InnoDB';
+CREATE DATABASE homeassistant CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use homeassistant;
 CREATE USER 'homeassistant'@'%' IDENTIFIED BY 'xxxxxxx';
 GRANT ALL PRIVILEGES ON homeassistant.* TO 'homeassistant'@'%';
