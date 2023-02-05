@@ -60,11 +60,15 @@ Make sure that things still work by restarting.
 
 Is located at `/home/homeassistant/.homeassistant/configuration.yaml`
 
-## Database
+# Databases
 
 I'm going to be leveraging MySQL for a bunch of other work, so I think we should migrate Home Assistant to MySQL. This step, it seems, needs to be done _after_ HA is up and running. I did this after I'd added a few devices and they didn't vapourise. So, I conclude that SQLite is still being used.
 
-### MySQL
+InfluxDB seems to be pretty common in this domain, so we'll add him as well.
+
+## MySQL
+
+### Installation
 
 First up, install MySQL:
 
@@ -117,6 +121,38 @@ Then:
 ```
 sudo systemctl daemon-reload
 ```
+
+## InfluxDB
+
+### Installation
+
+I installed InfluxDB using their documentation. I did not install the CLI, instead using their local web interface.
+
+### HomeAssistant
+
+Getting HA to push data to Influx was straight forward. I added an all-powerful API key, and then used that to tell HA to push to Influx by adding the following to the configuration file:
+
+```
+influxdb:
+  api_version: 2
+  ssl: false
+  host: localhost
+  port: 8086
+  token: GENERATED_AUTH_TOKEN
+  organization: 9c4f3c1e94a7715a
+  bucket: homeassistant
+```
+
+Note that, curiously, the organisation is referenced using a UUID type identifier.
+
+### Testing
+
+You should see data showing up in Influx.
+
+### Next Steps
+
+It sounds like we will receive too much data. We will probably want to constrain this in due course.
+
 
 # MQTT
 
@@ -226,8 +262,6 @@ CollectD versus Telegraf versus [home grown](https://github.com/renenw/ping): Bo
 
 ## Installation
 
-Installed InfluxDB using their documentation. Did not install the CLI, instead using their local web interface.
-
 Used the local web interface to install and configure the Telegraf Ping plugin.
 
 Within the Ping plugin confguration, set:
@@ -247,10 +281,6 @@ First, configured using the InfluxDb UI, Influx wants Telegraf to pull its confi
 These feels reasonable.
 
 However, there are few other parts to the puzzle.
-
-renen@server:~$ sudo nano /etc/systemd/system/telegraf.service.d/override.conf 
-renen@server:~$ sudo nano ~/.bashrc 
-renen@server:~$ sudo nano /lib/systemd/system/telegraf.service 
 
 First, you need to configure an Influx API token environment variable.
 
@@ -272,4 +302,28 @@ export INFLUX_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxx==
 
 I want to push ping data to a ping specific bucket: `ping` (duh). Getting these permissions to work was tricky.
 
+## Home Assistant Sensor
 
+Now, to get a sensor into Home Assistant, we will need to add variants of the following to our config file:
+
+```
+sudo /home/homeassistant/.homeassistant/configuration.yaml
+```
+
+```
+sensor:
+  - platform: influxdb
+    api_version: 2
+    organization: 9c4f3c1e94a7715a
+    token: GENERATED_AUTH_TOKEN
+    queries_flux:
+      - group_function: last
+        name: "Network Latency Ireland"
+        unique_id: "eu-west-1-081753309423"
+        unit_of_measurement: "ms"
+        query: >
+          filter(fn: (r) => r["_measurement"] == "ping")
+            |> filter(fn: (r) => r["_field"] == "average_response_ms")
+            |> filter(fn: (r) => r["host"] == "server")
+            |> filter(fn: (r) => r["url"] == "3.248.0.0")
+```
