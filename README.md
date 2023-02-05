@@ -62,26 +62,20 @@ Is located at `/home/homeassistant/.homeassistant/configuration.yaml`
 
 ## Database
 
-I'm going to be leveraging MySQL for a bunch of other work, so I think we should migrate Home Assistant to MySQL.
+I'm going to be leveraging MySQL for a bunch of other work, so I think we should migrate Home Assistant to MySQL. This step, it seems, needs to be done _after_ HA is up and running. I did this after I'd added a few devices and they didn't vapourise. So, I conclude that SQLite is still being used.
+
+### MySQL
+
+First up, install MySQL:
 
 ```
 sudo apt install mysql-server
 sudo systemctl start mysql.service
 sudo apt-get install default-libmysqlclient-dev libssl-dev
 ```
-That was the easy part. Getting HA to actually use the database was a little harder.
-
-This document was instrumental to getting things up and running: https://www.home-assistant.io/integrations/recorder/
-
-We also need to install the Python mysql client for HA:
-```
-sudo -u homeassistant -H -s
-pip3 install mysqlclient
-```
-
-Didn't even seem to need to be enabled.
 
 Then we need to a database and user for home assistant to use:
+
 ```
 sudo mysql
 SET GLOBAL default_storage_engine = 'InnoDB';
@@ -91,6 +85,38 @@ CREATE USER 'homeassistant'@'%' IDENTIFIED BY 'xxxxxxx';
 GRANT ALL PRIVILEGES ON homeassistant.* TO 'homeassistant'@'%';
 ```
 
+That was the easy part. Getting HA to actually use the database was a little harder.
+
+### Configure HA
+
+This document was instrumental to getting things up and running: https://www.home-assistant.io/integrations/recorder/
+
+You might want to scan over this thread as well: https://community.home-assistant.io/t/anybody-with-experience-moving-off-sqlite-into-a-db-i-e-mysql-maria/217861/12
+
+We need to install the Python mysql client for HA:
+
+```
+renen@server:~ $ sudo -u homeassistant -H -s
+renen@server:~$ source /srv/homeassistant/bin/activate
+(homeassistant) renen@server:~$ pip3 install mysqlclient
+```
+
+I don't understand that "active" step: but without it, this process doesn't work.
+
+### Service Dependencies
+
+Of course, now we need Home Assistant to start _after_ MySQL. We need to adjust the HA service config:
+
+```
+[Unit]
+Description=Home Assistant
+After=network.target mysql.service
+```
+
+Then:
+```
+sudo systemctl daemon-reload
+```
 
 # MQTT
 
