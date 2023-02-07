@@ -336,15 +336,17 @@ I was able to connect to the Zigbee2MQTT management console: http://192.168.0.25
 
 
 
-# Internet Monitoring: Latency
+# Internet Monitoring
+
+## Latency
 
 As a place to start, I want to track the performance of my network. Initially, this means pinging a rande of servers and gateways to guage reachability and latency. Speed will come later.
 
-## Choices
+### Choices
 
 CollectD versus Telegraf versus [home grown](https://github.com/renenw/ping): Both Telegraf and CollectD include ping modules - so this feels like a better approach than rolling my own. Also, Influx exists in the same ecosystem as Grafana and Home Assistant. So the Telegraf-Influx pair seem lke a natural choice.
 
-## Installation
+### Installation
 
 Used the local web interface to install and configure the Telegraf Ping plugin.
 
@@ -356,6 +358,21 @@ Within the Ping plugin confguration, set:
 
 Note that the AWS IPs were obtained from the [AWS Reachability Page](http://ec2-reachability.amazonaws.com/)
 
+## DNS
+
+My ISP prefers us to use their DNS rather than Google's. I know the guys so I'll give them the benefit of the doubt: I don't think they're raping my data. But, either way, I'd like to know if their service really is faster than Google's. It should be, but I'd like to know for sure.
+
+As such, I add the Telegraf DNS Plugin, and told it to start tracking both 8.8.8.8, and my ISP's DNS service.
+
+## After Install
+
+You will need to restart Telegraf:
+
+```
+sudo service telegraf stop
+sudo service telegraf start
+sudo service telegraf status
+```
 
 ## Bucket Permissions
 
