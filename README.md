@@ -168,7 +168,14 @@ It sounds like we will receive too much data. We will probably want to constrain
 
 We are going to use Telegraf for a few things: Internet latency monitoring, perhaps UDP ingestion. Its also installed with InfluxDb - so may as well get it up and running here.
 
-Ideally, you want Telegraf to pull its config from your InfluxDb server. But, getting Telegraf to run a service presented a range of learning opportunities.
+Ideally, you want Telegraf to pull its config from your InfluxDb server. But, getting Telegraf to run a service presented a range of learning opportunities. I struggled to get the Influx Token set properly, and I needed to ensure that Telegraf started _after_ InfluxDb.
+
+## Influx DB Startup Dependency
+
+As easy as expanding the "after" clause in the service definition file (`/lib/systemd/system/telegraf.service`).
+```
+After=network.target influxdb.service
+````
 
 ## Environment Variables
 
@@ -191,13 +198,15 @@ LimitNOFILE=8192
 ### Lines below this comment will be discarded
 ```
 
+## Telegraf.service
+
 You also need to make sure that your service file properly references this override file. My service config file (`/lib/systemd/system/telegraf.service`; for noobs, edit using `sudo nano /lib/systemd/system/telegraf.service`) is as follows:
 
 ```
 [Unit]
 Description=The plugin-driven server agent for reporting metrics into InfluxDB
 Documentation=https://github.com/influxdata/telegraf
-After=network.target
+After=network.target influxdb.service
 
 [Service]
 Type=notify
@@ -214,7 +223,9 @@ KillMode=control-group
 WantedBy=multi-user.target
 ```
 
-The `EnvironmentFile` and `ExecStart` lines are the ones you'll need to edit. Exec start will change based on the example provided by Influx when you confiure a Telegraf plugin.
+The `after`, `EnvironmentFile` and `ExecStart` lines are the ones you'll need to edit.
+
+`ExecStart` will change based on the example provided by Influx when you confiure a Telegraf plugin.
 
 ## All the steps
 
