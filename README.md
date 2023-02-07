@@ -164,6 +164,69 @@ You should see data showing up in Influx.
 It sounds like we will receive too much data. We will probably want to constrain this in due course.
 
 
+# Telegraf
+
+We are going to use Telegraf for a few things: Internet latency monitoring, perhaps UDP ingestion. Its also installed with InfluxDb - so may as well get it up and running here.
+
+Ideally, you want Telegraf to pull its config from your InfluxDb server. But, getting Telegraf to run a service presented a range of learning opportunities.
+
+## Environment Variables
+
+These need to be set in the service override file. The best way to edit this: `sudo systemctl edit telegraf.service`
+
+They do not need to be set via `.bashrc` or any other places.
+
+After installing the Telegraf Ping plugin, that file is as follows:
+
+```
+### Editing /etc/systemd/system/telegraf.service.d/override.conf
+### Anything between here and the comment below will become the new contents of the file
+
+[Service]
+CapabilityBoundingSet=CAP_NET_RAW
+AmbientCapabilities=CAP_NET_RAW
+Environment="INFLUX_TOKEN=i-<redacted>4mcg=="
+LimitNOFILE=8192
+
+### Lines below this comment will be discarded
+```
+
+You also need to make sure that your service file properly references this override file. My service config file (`/lib/systemd/system/telegraf.service`; for noobs, edit using `sudo nano /lib/systemd/system/telegraf.service`) is as follows:
+
+```
+[Unit]
+Description=The plugin-driven server agent for reporting metrics into InfluxDB
+Documentation=https://github.com/influxdata/telegraf
+After=network.target
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/systemd/system/telegraf.service.d/override.conf
+User=_telegraf
+Group=_telegraf
+ExecStart=/usr/bin/telegraf -config http://localhost:8086/api/v2/telegrafs/0ab33db4c2ae8000
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartForceExitStatus=SIGPIPE
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
+```
+
+The `EnvironmentFile` and `ExecStart` lines are the ones you'll need to edit. Exec start will change based on the example provided by Influx when you confiure a Telegraf plugin.
+
+## All the steps
+
+```
+sudo systemctl edit telegraf.service 
+sudo nano /lib/systemd/system/telegraf.service
+sudo systemctl daemon-reload
+sudo service telegraf stop
+sudo service telegraf start
+sudo service telegraf status
+```
+
 # MQTT
 
 ## Why?
@@ -282,31 +345,6 @@ Within the Ping plugin confguration, set:
 
 Note that the AWS IPs were obtained from the [AWS Reachability Page](http://ec2-reachability.amazonaws.com/)
 
-## Telegraf
-
-There are few things that I didn't find obvious about Telegraf.
-
-First, configured using the InfluxDb UI, Influx wants Telegraf to pull its config from Influx:
-
-These feels reasonable.
-
-However, there are few other parts to the puzzle.
-
-First, you need to configure an Influx API token environment variable.
-
-
-To do this, edit `.bashrc` and add the token at the end, then run `source`:
-
-```
-nano ~/.bashrc 
-source ~/.bashrc
-```
-
-Your `.bashrc` should have something along these lines at the end:
-
-```
-export INFLUX_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxx==
-```
 
 ## Bucket Permissions
 
