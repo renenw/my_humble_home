@@ -155,6 +155,10 @@ influxdb:
 
 Note that, curiously, the organisation is referenced using a UUID type identifier.
 
+### Giant Gotcha
+
+Eash HA InfluxDb configuration block requires the server configuration parameters: `ssl`, `host` etc.
+
 ### Testing
 
 You should see data showing up in Influx.
@@ -364,9 +368,13 @@ My ISP prefers us to use their DNS rather than Google's. I know the guys so I'll
 
 As such, I add the Telegraf DNS Plugin, and told it to start tracking both 8.8.8.8, and my ISP's DNS service.
 
+## Speed
+
+Enabled the Telegraf Internet Speed plugin.
+
 ### Post Script
 
-Unsuprisingly, the local DNS beats 8.8.8.8 (which is, I believe, about 1000 miles away in Johannesburg).
+Unsuprisingly, the local DNS (comprehensively!) beats 8.8.8.8 (which is, I believe, about 1000 miles away in Johannesburg).
 
 ## After Install
 
