@@ -82,7 +82,12 @@ source /srv/homeassistant/bin/activate
 wget -O - https://get.hacs.xyz | bash -
 ```
 
-Ctrl-d to exit back to your usual user, then restart Home Assistant.
+Ctrl-d to exit back to your usual user, then restart Home Assistant:
+
+```
+sudo service home-assistant@homeassistant stop
+sudo service home-assistant@homeassistant start
+```
 
 # Databases
 
