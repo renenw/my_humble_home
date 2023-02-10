@@ -70,6 +70,20 @@ sudo ufw enable
 sudo ufw allow 8123
 ```
 
+## HACS
+
+HACS is required by Frigate, recommended by YouTubers, and seems to be a compelling idea.
+
+The `wget` step is from the HACS Core installation notes [here](https://hacs.xyz/docs/setup/download/).
+
+```
+sudo -u homeassistant -H -s
+source /srv/homeassistant/bin/activate
+wget -O - https://get.hacs.xyz | bash -
+```
+
+Ctrl-d to exit back to your usual user, then restart Home Assistant.
+
 # Databases
 
 I'm going to be leveraging MySQL for a bunch of other work, so I think we should migrate Home Assistant to MySQL. This step, it seems, needs to be done _after_ HA is up and running. I did this after I'd added a few devices and they didn't vapourise. So, I conclude that SQLite is still being used.
