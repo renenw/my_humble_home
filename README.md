@@ -434,3 +434,8 @@ sensor:
             |> filter(fn: (r) => r["host"] == "server")
             |> filter(fn: (r) => r["url"] == "3.248.0.0")
 ```
+
+
+# Paradox
+
+https://github.com/maisken/Paradox_IP150
