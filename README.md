@@ -435,6 +435,10 @@ sensor:
             |> filter(fn: (r) => r["url"] == "3.248.0.0")
 ```
 
+# Frigate
+
+https://github.com/blakeblackshear/frigate/discussions/4041
+file:///home/renen/Downloads/Installing.frigate.from.scratch.pdf
 
 # Paradox
 
