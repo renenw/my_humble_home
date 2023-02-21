@@ -375,11 +375,11 @@ Used the local web interface to install and configure the Telegraf Ping plugin.
 
 Within the Ping plugin confguration, set:
 ```
-  ## Gateway, Google (probably JHB), "us-east-1", "eu-west-1", "af-south-1"
-  urls = ["105.233.1.138", "8.8.8.8", "3.80.0.0", "3.248.0.0", "13.245.0.253"]
+  ## Gateway, Google (probably JHB), "us-east-1", "eu-west-1", "af-south-1", "safaricom NBO"
+  urls = ["105.233.1.138", "8.8.8.8", "3.80.0.0", "3.248.0.0", "13.245.0.253", "197.248.116.74"]
 ```
 
-Note that the AWS IPs were obtained from the [AWS Reachability Page](http://ec2-reachability.amazonaws.com/)
+Note that the AWS IPs were obtained from the [AWS Reachability Page](http://ec2-reachability.amazonaws.com/) and [Public DNS Server List](https://public-dns.info/nameserver/ke.html)
 
 ## DNS
 
