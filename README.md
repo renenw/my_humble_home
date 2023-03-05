@@ -449,6 +449,11 @@ To start Frigate:
 
 `sudo docker compose -f frigate.yml up`
 
+This is useful: `sudo docker logs frigate`
+
+List of hikvision streams: http://www.ispyconnect.com/camera/hikvision
+
+May need to open 1935 so that HA can stream (https://docs.frigate.video/configuration/rtmp)
 
 # Paradox
 
