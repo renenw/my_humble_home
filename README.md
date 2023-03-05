@@ -439,6 +439,16 @@ sensor:
 
 https://github.com/blakeblackshear/frigate/discussions/4041
 file:///home/renen/Downloads/Installing.frigate.from.scratch.pdf
+https://wiki.seeedstudio.com/ODYSSEY-X86J4105-Frigate/
+
+Two config files:
+1. Docker: ~/Documents/frigate.yml
+2. Frigate: ~/Documents/frigate/config/config.yml
+
+To start Frigate:
+
+`sudo docker compose -f frigate.yml up`
+
 
 # Paradox
 
