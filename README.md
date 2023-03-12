@@ -356,7 +356,9 @@ Line one of the Zigbee2MQTT config file had defaulted to: `homeassistant: false`
 
 I was able to connect to the Zigbee2MQTT management console: http://192.168.0.252:8080/#/ (obviously, your IP address will change).
 
+## Brdige
 
+I subsequently added a second Sonoff Zigbee 3.0 USB Dongle which needed to be flashed to get it into bridge mode. I followed these instructions: https://sonoff.tech/wp-content/uploads/2021/12/SONOFF-Zigbee-3.0-USB-dongle-plus-firmware-flashing-1-1.pdf
 
 
 # Internet Monitoring
