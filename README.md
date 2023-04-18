@@ -460,3 +460,36 @@ May need to open 1935 so that HA can stream (https://docs.frigate.video/configur
 # Paradox
 
 https://github.com/maisken/Paradox_IP150
+
+
+# ESPHome
+
+I don't have a handle on the virtual environment concept.
+
+## Installation
+
+You really want to do this from an Ubuntu machine. Well, at least, not Windows.
+
+https://esphome.io/guides/installing_esphome.html
+
+```
+mkdir ~/esphome
+python3 -m venv venv
+source venv/bin/activate
+pip3 install esphome
+```
+
+Then: `sudo ufw 6052`
+
+## Usage
+
+Start the dashboard as a service:
+
+```
+source venv/bin/activate
+esphome dashboard /home/renen/esphome/
+```
+
+Then, access it: http://192.168.0.245:6052/
+
+Plug devices into the remote server.
